@@ -1,94 +1,67 @@
 #!/bin/bash
+
 fun_dtproxy() {
-# Nome do processo a ser verificado
-process_name="novoWS"
-
-# Diretório de destino para os arquivos
-dest_dir="/etc/SSHPlus"
-
-# Diretório para sshplus
-sshplus_dir="/opt/sshplus"
-
-# Função para criar o diretório /opt/sshplus e o arquivo /opt/sshplus/sshplus
-function criar_dir_sshplus() {
-    mkdir -p "$sshplus_dir"  # Cria o diretório /opt/sshplus se não existir
-    touch "$sshplus_dir/sshplus"  # Cria o arquivo /opt/sshplus/sshplus se não existir
-}
-
-# Função para fazer o download dos arquivos necessários
-function download_arquivos() {
-    if [ -e "$dest_dir/WebSocket" ] && [ -e "$dest_dir/priv.pem" ] && [ -e "$dest_dir/pub.key" ]; then
-        echo "Os arquivos já existem. Nada a fazer."
-    else
-        WebSocketURL="https://github.com/fleetvpngit/Websocket/raw/main/files/WebSocket"
-        PrivKeyURL="https://raw.githubusercontent.com/fleetvpngit/Websocket/main/files/priv.pem"
-        PubKeyURL="https://raw.githubusercontent.com/fleetvpngit/Websocket/main/files/pub.key"
-
-        wget -P "$dest_dir" "$WebSocketURL"
-        wget -P "$dest_dir" "$PrivKeyURL"
-        wget -P "$dest_dir" "$PubKeyURL"
-        chmod 777 "$dest_dir/WebSocket"
-    fi
-}
-
-# Função para ativar o proxy
-function ativar_proxy() {
-    if pgrep -f "$process_name" > /dev/null; then
-        echo "O proxy na porta 80 já está em execução com o nome do processo '$process_name'."
-    else
-        read -p "Insira a MENSAGEM: " mensagem
-        screen -dmS "$process_name" /etc/SSHPlus/WebSocket -proxy_port "0.0.0.0:80" -msg "$mensagem"
-        echo "Proxy ativado na porta 80 com a mensagem: $mensagem e o nome do processo '$process_name'."
-    fi
-}
-
-# Função para desativar o proxy
-function desativar_proxy() {
-    if pgrep -f "$process_name" > /dev/null; then
-        pkill -f "$process_name"
-        echo "Proxy na porta 80 com o nome do processo '$process_name' foi desativado."
-    else
-        echo "Nenhum proxy na porta 80 com o nome do processo '$process_name' em execução."
-    fi
-}
-
-# Função do menu principal
-function menu() {
-    while true; do
+    function mostrar_menu_security() {
         clear
-        echo "Menu dtproxy"
-        echo "1. Ativar Proxy na Porta 80"
-        echo "2. Desativar Proxy na Porta 80"
-        echo "3. Sair"
-        read -p "Escolha uma opção: " escolha
-        case $escolha in
-            1)
-                ativar_proxy
-                read -p "Pressione Enter para continuar..."
-                ;;
-            2)
-                desativar_proxy
-                read -p "Pressione Enter para continuar..."
-                ;;
-            3)
-                echo "Saindo do dtproxy."
-                exit
-                ;;
-            *)
-                echo "Opção inválida. Tente novamente."
-                read -p "Pressione Enter para continuar..."
-                ;;
-        esac
-    done
-}
+        echo -e "\E[44;1;37m       WEBSOCKET SECURITY        \E[0m"
+        echo ""
+        echo -e "\033[1;36m1.\033[0m \033[1;33mATIVAR WSSSECURITY\033[0m"
+        echo -e "\033[1;36m2.\033[0m \033[1;33mDESATIVAR WSSSECURITY\033[0m"
+        echo -e "\033[1;36m3.\033[0m \033[1;33mVOLTAR\033[0m"
+        echo ""
+        echo -ne "\033[1;32mEscolha uma opção: \033[0m"
+    }
 
-# Iniciar o download dos arquivos
-download_arquivos
+    function ativar_proxy() {
+        process_name="WssSecurity"
+        read -p "Insira a porta desejada (por exemplo, 80): " porta
 
-# Criar o diretório /opt/sshplus e o arquivo /opt/sshplus/sshplus
-criar_dir_sshplus
+        # Verificar se a porta já está em uso pelo processo "WssSecurity"
+        if lsof -i :$porta -t &>/dev/null; then
+            echo "A porta $porta já está em uso pelo processo '$process_name'."
+        else
+            read -p "Insira a MENSAGEM: " mensagem
+            screen -dmS "$process_name" /etc/SSHPlus/WebSocket -proxy_port "0.0.0.0:$porta" -msg "$mensagem"
+            echo "Proxy ativado na porta $porta com a mensagem: $mensagem e o nome do processo '$process_name'."
+        fi
+    }
 
-# Iniciar o menu dtproxy
-menu
+    function desativar_proxy() {
+        process_name="WssSecurity"
+        if pgrep -f "$process_name" > /dev/null; then
+            pkill -f "$process_name"
+            echo "Proxy na porta com o nome do processo '$process_name' foi desativado."
+        else
+            echo "Nenhum proxy com o nome do processo '$process_name' em execução."
+        fi
+    }
+
+    function menu_security() {
+        while true; do
+            mostrar_menu_security
+            read opcao
+            case $opcao in
+                1)
+                    ativar_proxy
+                    read -p "Pressione Enter para continuar..."
+                    ;;
+                2)
+                    desativar_proxy
+                    read -p "Pressione Enter para continuar..."
+                    ;;
+                3)
+                    echo "Saindo do dtproxy."
+                    exit
+                    ;;
+                *)
+                    echo "Opção inválida. Tente novamente."
+                    read -p "Pressione Enter para continuar..."
+                    ;;
+            esac
+        done
+    }
+
+    # Iniciar o menu de segurança
+    menu_security
 }
 fun_dtproxy
