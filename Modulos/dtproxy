@@ -1,11 +1,19 @@
 #!/bin/bash
 fun_dtproxy() {
-
 # Nome do processo a ser verificado
 process_name="novoWS"
 
 # Diretório de destino para os arquivos
 dest_dir="/etc/SSHPlus"
+
+# Diretório para sshplus
+sshplus_dir="/opt/sshplus"
+
+# Função para criar o diretório /opt/sshplus e o arquivo /opt/sshplus/sshplus
+function criar_dir_sshplus() {
+    mkdir -p "$sshplus_dir"  # Cria o diretório /opt/sshplus se não existir
+    touch "$sshplus_dir/sshplus"  # Cria o arquivo /opt/sshplus/sshplus se não existir
+}
 
 # Função para fazer o download dos arquivos necessários
 function download_arquivos() {
@@ -76,6 +84,9 @@ function menu() {
 
 # Iniciar o download dos arquivos
 download_arquivos
+
+# Criar o diretório /opt/sshplus e o arquivo /opt/sshplus/sshplus
+criar_dir_sshplus
 
 # Iniciar o menu dtproxy
 menu
