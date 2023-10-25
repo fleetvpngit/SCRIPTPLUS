@@ -1,0 +1,83 @@
+#!/bin/bash
+fun_dtproxy() {
+
+# Nome do processo a ser verificado
+process_name="novoWS"
+
+# Diretório de destino para os arquivos
+dest_dir="/etc/SSHPlus"
+
+# Função para fazer o download dos arquivos necessários
+function download_arquivos() {
+    if [ -e "$dest_dir/WebSocket" ] && [ -e "$dest_dir/priv.pem" ] && [ -e "$dest_dir/pub.key" ]; then
+        echo "Os arquivos já existem. Nada a fazer."
+    else
+        WebSocketURL="https://github.com/fleetvpngit/Websocket/raw/main/files/WebSocket"
+        PrivKeyURL="https://raw.githubusercontent.com/fleetvpngit/Websocket/main/files/priv.pem"
+        PubKeyURL="https://raw.githubusercontent.com/fleetvpngit/Websocket/main/files/pub.key"
+
+        wget -P "$dest_dir" "$WebSocketURL"
+        wget -P "$dest_dir" "$PrivKeyURL"
+        wget -P "$dest_dir" "$PubKeyURL"
+        chmod 777 "$dest_dir/WebSocket"
+    fi
+}
+
+# Função para ativar o proxy
+function ativar_proxy() {
+    if pgrep -f "$process_name" > /dev/null; then
+        echo "O proxy na porta 80 já está em execução com o nome do processo '$process_name'."
+    else
+        read -p "Insira a MENSAGEM: " mensagem
+        screen -dmS "$process_name" /etc/SSHPlus/WebSocket -proxy_port "0.0.0.0:80" -msg "$mensagem"
+        echo "Proxy ativado na porta 80 com a mensagem: $mensagem e o nome do processo '$process_name'."
+    fi
+}
+
+# Função para desativar o proxy
+function desativar_proxy() {
+    if pgrep -f "$process_name" > /dev/null; then
+        pkill -f "$process_name"
+        echo "Proxy na porta 80 com o nome do processo '$process_name' foi desativado."
+    else
+        echo "Nenhum proxy na porta 80 com o nome do processo '$process_name' em execução."
+    fi
+}
+
+# Função do menu principal
+function menu() {
+    while true; do
+        clear
+        echo "Menu dtproxy"
+        echo "1. Ativar Proxy na Porta 80"
+        echo "2. Desativar Proxy na Porta 80"
+        echo "3. Sair"
+        read -p "Escolha uma opção: " escolha
+        case $escolha in
+            1)
+                ativar_proxy
+                read -p "Pressione Enter para continuar..."
+                ;;
+            2)
+                desativar_proxy
+                read -p "Pressione Enter para continuar..."
+                ;;
+            3)
+                echo "Saindo do dtproxy."
+                exit
+                ;;
+            *)
+                echo "Opção inválida. Tente novamente."
+                read -p "Pressione Enter para continuar..."
+                ;;
+        esac
+    done
+}
+
+# Iniciar o download dos arquivos
+download_arquivos
+
+# Iniciar o menu dtproxy
+menu
+}
+fun_dtproxy
