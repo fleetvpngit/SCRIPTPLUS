@@ -1,6 +1,6 @@
 #!/bin/bash
 
-fun_dtproxy() {
+fun_wss_security() {
 
     # Função para criar o diretório /opt/sshplus e o arquivo /opt/sshplus/sshplus
     function criar_dir_sshplus() {
@@ -105,4 +105,4 @@ fun_dtproxy() {
 
 }
 
-fun_dtproxy
+fun_wss_security

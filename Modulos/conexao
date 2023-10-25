@@ -2150,7 +2150,7 @@ exit 0' >$RCLOCAL
 				fun_socks
 				;;
 			6 | 06)
-				dtproxy
+				wss_security
 				;;
 			7 | 07)
 				inst_ssl
