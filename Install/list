@@ -1,6 +1,6 @@
 #!/bin/bash
 #====================================================
-#	@kiritosshxd
+#	SCRIPTPLUS
 #====================================================
 _lvk=$(wget -qO- https://raw.githubusercontent.com/fleetvpngit/SCRIPTPLUS/master/Sistema/versao)
 IP=$(wget -qO- ipv4.icanhazip.com)
