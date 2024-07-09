@@ -1630,7 +1630,7 @@ exit 0' >$RCLOCAL
 				echo ""
 				fun_bar 'fun_iniwssocks'
 				echo ""
-				echo -e "\033[1;32WSSOCKS ATIVADO COM SUCESSO\033[1;33m"
+				echo -e "\033[1;32mWEBSOCKET ATIVADO COM SUCESSO\033[1;33m"
 				sleep 3
 				fun_socks
 			fi
