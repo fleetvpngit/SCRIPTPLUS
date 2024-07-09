@@ -9,7 +9,6 @@ fun_badvpn() {
         sleep 0.1
     fi
     var_sks1=$(ps x | grep "udpvpn"|grep -v grep > /dev/null && echo -e "\033[1;32m◉ " || echo -e "\033[1;31m○ ")
-    echo ""
     echo -e "\033[1;31m[\033[1;36m1\033[1;31m] \033[1;37m• \033[1;33mATIVAR BADVPN X(PADRÃO 7300) $var_sks1 \033[0m"
     echo -e "\033[1;31m[\033[1;36m2\033[1;31m] \033[1;37m• \033[1;33mABRIR PORTA\033[0m"
     echo -e "\033[1;31m[\033[1;36m0\033[1;31m] \033[1;37m• \033[1;33mVOLTAR\033[0m"
