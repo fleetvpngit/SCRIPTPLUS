@@ -131,6 +131,27 @@ echo "crz: $(date)" > /usr/share/.plus/.plus
 }
 
 #-----------------------------------------------------------------------------------------------------------------
+fun_bar 'fun_attlist'
+clear
+echo ""
+echo -e "          \033[1;37m[\033[1;31m!\033[1;37m] \033[1;32mAGUARDE A INSTALAÇÃO \033[1;37m[\033[1;31m!\033[1;37m] \033[0m"
+echo ""
+echo -e "                \033[1;37mOTIMIZANDO PYTHON \033[0m"
+echo ""
+echo -e "            \033[1;37mCOSTUMA DEMORAR UM POUCO!\033[0m"
+echo ""
+
+otimize_python() {
+    # INSTALA PYTHON E PYTHON2
+    apt-get install python -y >/dev/null 2>&1
+    apt-get install python2 -y >/dev/null 2>&1
+}
+
+# Chama a função otimize_python dentro da fun_bar
+fun_bar 'otimize_python'
+#-----------------------------------------------------------------------------------------------------------------
+
+#-----------------------------------------------------------------------------------------------------------------
 
 clear
 
