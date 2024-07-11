@@ -148,7 +148,6 @@ clear
     apt-get install python3-pip -y >/dev/null 2>&1
     # INSTALA SOCAT
     apt-get install socat -y >/dev/null 2>&1
-6
 }
     fun_bar 'otimize_python'
 	
