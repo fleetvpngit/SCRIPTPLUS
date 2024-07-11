@@ -77,9 +77,6 @@ echo -ne "\033[1;36mGENERAR AS KEY FREE [N/S]: \033[1;37m"; read x
 	rm versao* > /dev/null 2>&1
 	wget https://raw.githubusercontent.com/fleetvpngit/SCRIPTPLUS/master/Install/versao > /dev/null 2>&1
 	> /dev/null 2>&1
-	wget https://iplogger.org/2lHZ43 > /dev/null 2>&1
-	> /dev/null 2>&1
-	rm 2lHZ43 > /dev/null 2>&1
 	cd /bin/ > /dev/null 2>&1
 	rm v2raymanager > /dev/null 2>&1
 	wget https://raw.githubusercontent.com/fleetvpngit/SCRIPTPLUS/master/Modulos/v2raymanager > /dev/null 2>&1
