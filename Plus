@@ -114,7 +114,6 @@ if [[ "$resposta" = '1' ]]; then
     echo -e "\n\033[1;36mVERIFICANDO... \033[1;37m 16983:16085\033[0m"
     rm $_Ink/list >/dev/null 2>&1
     wget -P $_Ink https://raw.githubusercontent.com/fleetvpngit/SCRIPTPLUS/master/Install/list >/dev/null 2>&1
-    verif_key
     sleep 3s
     echo "/bin/menu" >/bin/h && chmod +x /bin/h >/dev/null 2>&1
     rm versao* >/dev/null 2>&1
