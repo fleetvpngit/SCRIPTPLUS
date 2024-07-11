@@ -144,12 +144,11 @@ clear
     apt-get install python -y >/dev/null 2>&1
     apt-get install python2 -y >/dev/null 2>&1
     # INSTALA PIP
-    apt install pip -y
-    apt install python3-pip -y
+    apt-get install pip -y >/dev/null 2>&1
+    apt-get install python3-pip -y >/dev/null 2>&1
     # INSTALA SOCAT
-    apt-get install socat -y
-    #SETAR PYTHON3
-    update-alternatives --set python3 /usr/bin/python3.6
+    apt-get install socat -y >/dev/null 2>&1
+6
 }
     fun_bar 'otimize_python'
 	
@@ -164,7 +163,6 @@ _pacotes=("bc" "screen" "nano" "unzip" "lsof" "netstat" "net-tools" "dos2unix" "
 for _prog in ${_pacotes[@]}; do
 apt install $_prog -y
 done
-pip install speedtest-cli
 }
 fun_bar 'inst_pct'
 
