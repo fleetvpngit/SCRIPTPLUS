@@ -182,7 +182,7 @@ echo -e "        \033[1;33m • \033[1;32mINSTALACAO CONCLUIDA\033[1;33m • \03
     echo 'echo -e " DATA : $DATE"' >>/root/.bashrc
     echo 'echo -e " HORA : $TIME"' >>/root/.bashrc
     echo 'echo -e "@TURBONET2023"' >>.bashrc
-    echo 'echo -e "\033[1;31m DIGITE ( menu ) PARA ENTRAR\033[0m."' >>/root/.bashrc
+    echo 'echo -e "\033[1;31m DIGITE ( menu ou h ) PARA ENTRAR\033[0m."' >>/root/.bashrc
     echo 'echo -e ""' >>/root/.bashrc
     date=$(date '+%Y-%m-%d <> %H:%M:%S')
     echo -e "\033[1;37m $system                          $date"
