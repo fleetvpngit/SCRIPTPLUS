@@ -88,4 +88,4 @@ mkdir /opt/sshplus
 echo > /opt/sshplus/sshplus
 cd /etc/SSHPlus/ && wget https://github.com/fleetvpngit/SCRIPTPLUS/raw/main/Modulos/WebSocket && wget https://raw.githubusercontent.com/fleetvpngit/SCRIPTPLUS/main/Modulos/pub.key && wget https://raw.githubusercontent.com/fleetvpngit/SCRIPTPLUS/main/Modulos/priv.pem && chmod 777 WebSocket && cd $HOME
 cd /etc/SSHPlus/ && wget https://raw.githubusercontent.com/fleetvpngit/SCRIPTPLUS/main/Modulos/proxydt && chmod 777 proxydt && cd $HOME
-cd /etc/SSHPlus/ && wget https://raw.githubusercontent.com/fleetvpngit/SCRIPTPLUS/main/Modulos/softether.sh && chmod 777 softether.sh && cd $HOME
+cd /bin/ && wget https://raw.githubusercontent.com/fleetvpngit/SCRIPTPLUS/main/Modulos/softether.sh && chmod 777 softether.sh && cd $HOME
