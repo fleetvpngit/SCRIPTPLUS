@@ -19,9 +19,20 @@ clear
 [[ $(grep -c "#PasswordAuthentication no" /etc/ssh/sshd_config) != '0' ]] && {
     sed -i "s/#PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
 } > /dev/null
-[[ $(grep -c "^Include /etc/ssh/sshd_config.d/\*.conf" /etc/ssh/sshd_config) != '0' ]] && {
-    sed -i "s|^Include /etc/ssh/sshd_config.d/\*.conf|#Include /etc/ssh/sshd_config.d/\*.conf|g" /etc/ssh/sshd_config
-} > /dev/null
+
+# Alterar arquivos em /etc/ssh/sshd_config.d/*.conf
+for file in /etc/ssh/sshd_config.d/*.conf; do
+    [[ $(grep -c "PasswordAuthentication no" "$file") != '0' ]] && {
+        sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/g" "$file"
+    } > /dev/null
+    [[ $(grep -c "#PasswordAuthentication no" "$file") != '0' ]] && {
+        sed -i "s/#PasswordAuthentication no/PasswordAuthentication yes/g" "$file"
+    } > /dev/null
+done
 
 service ssh restart > /dev/null
-clear; echo -e "\033[1;32mA SEGUIR DEFINA A SENHA ROOT\033[0m"; sleep 2s; passwd && rm senharoot.sh
+clear
+echo -e "\033[1;32mA SEGUIR DEFINA A SENHA ROOT\033[0m"
+sleep 2s
+passwd
+rm senharoot.sh
