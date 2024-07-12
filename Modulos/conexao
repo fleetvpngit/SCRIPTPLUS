@@ -1666,14 +1666,14 @@ exit 0' >$RCLOCAL
 			figlet 'SSH-PLUS' | lolcat
 		echo -e "\E[44;1;37m             WEBSOCKET SECURITY              \E[0m"
 				echo ""
-				rm -rf /etc/mamalista
-				read -p "$(echo -e "★ \033[1;32mQUAL PORTA ULTILIZAR? \033[1;37m")" -e -i 80 cuzin
-				echo "$cuzin" > /etc/mamalista
+				rm -rf /etc/securitywss
+				read -p "$(echo -e "★ \033[1;32mQUAL PORTA ULTILIZAR? \033[1;37m")" -e portawss
+				echo "$portawss" > /etc/securitywss
 				echo ""
-				read -p "$(echo -e "★ \033[1;32mQUAL MENSAGEM PARA STATUS? \033[1;37m")" -e -i WebSecurity cuzin2
-				rm -rf /etc/mamalista2
-				echo "$cuzin2" > /etc/mamalista2
-				[[ -z "cuzin" ]] && {
+				read -p "$(echo -e "★ \033[1;32mQUAL MENSAGEM PARA STATUS? \033[1;37m")" -e statuswss
+				rm -rf /etc/securitystatus
+				echo "$statuswss" > /etc/securitystatus
+				[[ -z "portawss" ]] && {
 					echo ""
 					echo -e "\033[1;31mPorta invalida!"
 					
@@ -1682,12 +1682,12 @@ exit 0' >$RCLOCAL
 				verif_ptrs $porta
 				fun_iniwssocks() {
 					sleep 1
-					screen -dmS novoWS /etc/SSHPlus/WebSocket -proxy_port 0.0.0.0:$(cat /etc/mamalista)
+					screen -dmS novoWS /etc/SSHPlus/WebSocket -proxy_port 0.0.0.0:$(cat /etc/securitywss)
 					[[ $(grep -wc "WebSocket" /etc/autostart) = '0' ]] && {
-						echo -e "screen -dmS novoWS /etc/SSHPlus/WebSocket -proxy_port 0.0.0.0:$(cat /etc/mamalista)
+						echo -e "screen -dmS novoWS /etc/SSHPlus/WebSocket -proxy_port 0.0.0.0:$(cat /etc/securitywss)
 					} || {
 						sed -i '/WebSocket/d' /etc/autostart
-						echo -e "screen -dmS novoWS /etc/SSHPlus/WebSocket -proxy_port 0.0.0.0:$(cat /etc/mamalista)
+						echo -e "screen -dmS novoWS /etc/SSHPlus/WebSocket -proxy_port 0.0.0.0:$(cat /etc/securitywss)
 					}
 				}
 				echo ""
@@ -2263,7 +2263,7 @@ exit 0' >$RCLOCAL
 			}
 			
 			[[ "$(netstat -tlpn | grep 'WebSocket' | wc -l)" != '0' ]] && {
-				echo -e "\033[01;31m\033[1;32mSERVICO: \033[1;33mWEBSOCKET SECURITY \033[1;32mPORTA: \033[1;37m"$(cat /etc/mamalista)"\033[01;31m                       \033[0m"
+				echo -e "\033[01;31m\033[1;32mSERVICO: \033[1;33mWEBSOCKET SECURITY \033[1;32mPORTA: \033[1;37m"$(cat /etc/securitywss)"\033[01;31m                       \033[0m"
 				sts4="\033[1;32m◉ "
 			} || {
 				sts4="\033[1;31m○ "
