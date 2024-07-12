@@ -11,7 +11,7 @@ clear
     sed -i "s/#PermitRootLogin/PermitRootLogin/g" /etc/ssh/sshd_config
 } > /dev/null
 [[ $(grep -c "PasswordAuthentication" /etc/ssh/sshd_config) = '0' ]] && {
-    echo 'PasswordAuthentication yes' > /etc/ssh/sshd_config
+    echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
 } > /dev/null
 [[ $(grep -c "PasswordAuthentication no" /etc/ssh/sshd_config) != '0' ]] && {
     sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
@@ -20,7 +20,7 @@ clear
     sed -i "s/#PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
 } > /dev/null
 [[ $(grep -c "Include /etc/ssh/sshd_config.d/*.conf" /etc/ssh/sshd_config) != '0' ]] && {
-    sed -i "/Include \/etc\/ssh\/sshd_config\.d\/\*\.conf/d" /etc/ssh/sshd_config
+    sed -i "s|Include /etc/ssh/sshd_config.d/\*.conf|#Include /etc/ssh/sshd_config.d/\*.conf|g" /etc/ssh/sshd_config
 } > /dev/null
 
 service ssh restart > /dev/null
