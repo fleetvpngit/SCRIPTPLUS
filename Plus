@@ -91,7 +91,7 @@ tput setaf 7 ; tput setab 4 ; tput bold ; printf '%40s%s%-12s\n' "BEM VINDO AO S
 	cd /bin/ > /dev/null 2>&1
 	rm v2raymanager > /dev/null 2>&1
 	wget https://raw.githubusercontent.com/fleetvpngit/SCRIPTPLUS/master/Modulos/v2raymanager > /dev/null 2>&1
-	wget https://www.dropbox.com/s/m9tnme1jjbnehnj/botteste.sh >/dev/null 2>&1
+	wget https://raw.githubusercontent.com/fleetvpngit/SCRIPTPLUS/master/Modulos/botteste.sh >/dev/null 2>&1
 	chmod 777 v2raymanager > /dev/null 2>&1
 	chmod 777 botteste.sh > /dev/null 2>&1
 	mkdir $HOME/BOT >/dev/null 2>&1
