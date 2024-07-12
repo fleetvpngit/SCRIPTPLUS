@@ -2364,7 +2364,7 @@ exit 0' >$RCLOCAL
 				trojan-go
 				;;
 			12 | 12)
-				softether.sh
+				softether
 				;;	
 			13 | 13)
 				menu

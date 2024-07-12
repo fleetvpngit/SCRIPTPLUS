@@ -30,7 +30,13 @@ install_softether() {
     if [ -f softether-vpnserver-v4.43-9799-beta-2023.08.31-linux-x64-64bit.tar.gz ]; then
         echo "Extraindo arquivos do SoftEther VPN Server..."
         tar xzvf softether-vpnserver-v4.43-9799-beta-2023.08.31-linux-x64-64bit.tar.gz > /dev/null
-    else
+		
+		
+	 # Remover o arquivo após extração bem-sucedida
+        echo "Removendo arquivo de instalação..."
+        rm softether-vpnserver-v4.43-9799-beta-2023.08.31-linux-x64-64bit.tar.gz	
+		
+	else
         echo "Arquivo do SoftEther VPN Server não encontrado. Verifique o download."
         return 1
     fi
