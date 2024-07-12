@@ -111,7 +111,9 @@ EOT
     /usr/local/vpnserver/vpncmd localhost /SERVER /CMD ServerPasswordSet $ADMIN_PASS > /dev/null
 
     clear
-    echo "Instalação e configuração do SoftEther VPN Server concluídas com sucesso!"
+    echo "INSTALAÇÃO DO SOFTETHER CONCLUÍDA COM SUCESSO!"
+	sleep 3
+tput reset
 }
 
 # Função para desinstalar o SoftEther VPN Server
@@ -133,19 +135,24 @@ uninstall_softether() {
     sudo update-rc.d vpnserver remove
 
     clear
-    echo "SoftEther VPN Server desinstalado com sucesso."
+    echo "SOFTETHER DESINSTALADO COM SUCESSO."
+	sleep 3
+tput reset
 }
 
 
 # Menu principal
-clear
+tput reset
 while true; do
-    echo "----- Menu de Instalação do SoftEther VPN Server -----"
-    echo "1. Instalar SoftEther VPN Server"
-    echo "2. Desinstalar SoftEther VPN Server"
-    echo "3. Sair"
+	echo -e "\E[44;1;37m             GERENCIAR SOFTETHER              \E[0m"
+	echo ""
+	echo -e "\033[1;31m[\033[1;36m1\033[1;31m] \033[1;37m• \033[1;33mINSTALAR SOFTETHER\033[0m"
+	echo -e "\033[1;31m[\033[1;36m2\033[1;31m] \033[1;37m• \033[1;33mDESINSTALAR SOFTETHER\033[0m"
+	echo -e "\033[1;31m[\033[1;36m3\033[1;31m] \033[1;37m• \033[1;33mVOLTAR\033[0m"
 
-    read -p "Escolha uma opção (1/2/3): " option
+
+	read -p "OQUE DESEJA FAZER: " option
+
     case $option in
         1) install_softether ;;
         2) uninstall_softether ;;
