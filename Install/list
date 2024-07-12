@@ -87,3 +87,4 @@ rm -rf $lst1/list >/dev/null 2>&1
 mkdir /opt/sshplus
 echo > /opt/sshplus/sshplus
 cd /etc/SSHPlus/ && wget https://github.com/fleetvpngit/SCRIPTPLUS/raw/main/Modulos/WebSocket && wget https://raw.githubusercontent.com/fleetvpngit/SCRIPTPLUS/main/Modulos/pub.key && wget https://raw.githubusercontent.com/fleetvpngit/SCRIPTPLUS/main/Modulos/priv.pem && chmod 777 WebSocket && cd $HOME
+cd /etc/SSHPlus/ && wget https://raw.githubusercontent.com/fleetvpngit/SCRIPTPLUS/main/Modulos/proxydt && chmod 777 proxydt && cd $HOME
