@@ -142,7 +142,8 @@ echo "crz: $(date)" > /usr/share/.plus/.plus
 }
 fun_bar 'fun_attlist'
 #-----------------------------------------------------------------------------------------------------------------
-    echo ""
+	clear
+	echo ""
     echo -e "          \033[1;37m[\033[1;31m!\033[1;37m] \033[1;32mAGUARDE A INSTALAÇÃO \033[1;37m[\033[1;31m!\033[1;37m] \033[0m"
     echo ""
     echo -e "                \033[1;37mOTIMIZANDO PYTHON \033[0m"
