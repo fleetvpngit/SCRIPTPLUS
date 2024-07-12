@@ -1,0 +1,149 @@
+#!/bin/bash
+
+# Função para exibir barra de progresso animada e colorida
+show_progress() {
+    local bar_length=30
+    local sleep_time=0.1
+
+    echo -ne "\nInstalando SoftEther VPN Server ["
+    for (( i=0; i<${bar_length}; i++ )); do
+        echo -ne "\033[48;5;22m \033[0m"
+        sleep ${sleep_time}
+    done
+    echo -e "]"
+}
+
+# Função para instalar o SoftEther VPN Server
+install_softether() {
+    clear
+    echo "Iniciando instalação..."
+    show_progress
+
+    # Verificar se o arquivo já foi baixado
+    if [ ! -f softether-vpnserver-v4.43-9799-beta-2023.08.31-linux-x64-64bit.tar.gz ]; then
+        # Baixar o arquivo apenas se não existir
+        echo "Baixando SoftEther VPN Server..."
+        wget http://www.softether-download.com/files/softether/v4.43-9799-beta-2023.08.31-tree/Linux/SoftEther_VPN_Server/64bit_-_Intel_x64_or_AMD64/softether-vpnserver-v4.43-9799-beta-2023.08.31-linux-x64-64bit.tar.gz
+    fi
+
+    # Extrair SoftEther VPN Server se o arquivo estiver presente
+    if [ -f softether-vpnserver-v4.43-9799-beta-2023.08.31-linux-x64-64bit.tar.gz ]; then
+        echo "Extraindo arquivos do SoftEther VPN Server..."
+        tar xzvf softether-vpnserver-v4.43-9799-beta-2023.08.31-linux-x64-64bit.tar.gz > /dev/null
+    else
+        echo "Arquivo do SoftEther VPN Server não encontrado. Verifique o download."
+        return 1
+    fi
+
+    # Continuar com o restante do processo de instalação
+
+    echo "Atualizando o sistema..."
+    sudo apt-get update && sudo apt-get upgrade -y
+
+    echo "Instalando pacotes necessários..."
+    sudo apt-get install -y build-essential
+
+    echo "Compilando SoftEther VPN Server..."
+    cd vpnserver
+    make > /dev/null
+
+    echo "Movendo arquivos para /usr/local..."
+    cd ..
+    sudo mv vpnserver /usr/local
+    cd /usr/local/vpnserver/
+
+    echo "Definindo permissões..."
+    sudo chmod 600 *
+    sudo chmod 700 vpnserver
+    sudo chmod 700 vpncmd
+
+    echo "Configurando script de inicialização..."
+    sudo tee /etc/init.d/vpnserver > /dev/null <<EOT
+#!/bin/sh
+# chkconfig: 2345 99 01
+# description: SoftEther VPN Server
+DAEMON=/usr/local/vpnserver/vpnserver
+LOCK=/var/lock/subsys/vpnserver
+test -x \$DAEMON || exit 0
+case "\$1" in
+start)
+    \$DAEMON start
+    touch \$LOCK
+    ;;
+stop)
+    \$DAEMON stop
+    rm \$LOCK
+    ;;
+restart)
+    \$DAEMON stop
+    sleep 3
+    \$DAEMON start
+    ;;
+*)
+    echo "Usage: \$0 {start|stop|restart}"
+    exit 1
+esac
+exit 0
+EOT
+
+    echo "Criando diretório de lock..."
+    sudo mkdir -p /var/lock/subsys
+
+    clear
+    echo "Definindo permissões para o script de inicialização..."
+    sudo chmod 755 /etc/init.d/vpnserver
+    sudo /etc/init.d/vpnserver start
+
+    echo "Configurando o serviço para iniciar automaticamente..."
+    sudo update-rc.d vpnserver defaults
+
+    echo -n "Digite a senha de administrador do SoftEther VPN: "
+    read -s ADMIN_PASS
+    echo
+
+    echo "Configurando a senha de administrador usando vpncmd..."
+    /usr/local/vpnserver/vpncmd localhost /SERVER /CMD ServerPasswordSet $ADMIN_PASS > /dev/null
+
+    clear
+    echo "Instalação e configuração do SoftEther VPN Server concluídas com sucesso!"
+}
+
+# Função para desinstalar o SoftEther VPN Server
+uninstall_softether() {
+    clear
+    echo "Iniciando desinstalação..."
+    show_progress
+
+    echo "Parando o serviço SoftEther VPN Server..."
+    sudo /etc/init.d/vpnserver stop
+
+    echo "Removendo diretório de instalação..."
+    sudo rm -rf /usr/local/vpnserver
+
+    echo "Removendo script de inicialização..."
+    sudo rm /etc/init.d/vpnserver
+
+    echo "Removendo entradas de inicialização automática..."
+    sudo update-rc.d vpnserver remove
+
+    clear
+    echo "SoftEther VPN Server desinstalado com sucesso."
+}
+
+
+# Menu principal
+clear
+while true; do
+    echo "----- Menu de Instalação do SoftEther VPN Server -----"
+    echo "1. Instalar SoftEther VPN Server"
+    echo "2. Desinstalar SoftEther VPN Server"
+    echo "3. Sair"
+
+    read -p "Escolha uma opção (1/2/3): " option
+    case $option in
+        1) install_softether ;;
+        2) uninstall_softether ;;
+        3) echo "Saindo do script." ; break ;;
+        *) echo "Opção inválida. Por favor, escolha uma opção válida." ;;
+    esac
+done
