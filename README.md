@@ -12,6 +12,8 @@
 
 ✅ BADVPN X VÁRIAS PORTAS
 
+✅ SOFTETHER VPN
+
 ## :heavy_exclamation_mark: OBRIGATÓRIO
 * Instale em um sistema operacional baseado em Linux (Ubuntu ou Debian)
 * SERVIDOR UBUNTU 18.04 x86_64 / SERVIDOR UBUNTU 20.04 x86_64
