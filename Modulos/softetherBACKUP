@@ -5,22 +5,12 @@ show_progress() {
     local bar_length=30
     local sleep_time=0.1
 
-    echo -ne "\nAGUARDE ["
+    echo -ne "\nInstalando SoftEther VPN Server ["
     for (( i=0; i<${bar_length}; i++ )); do
-        echo -ne "\033[48;5;52m \033[0m"
+        echo -ne "\033[48;5;22m \033[0m"
         sleep ${sleep_time}
     done
     echo -e "]"
-}
-
-# Função para verificar se o SoftEther VPN Server está instalado e em execução
-softether_installed_and_running() {
-    # Verificar se o serviço está em execução
-    if [[ $(netstat -tunlp | grep 'vpnserver' | wc -l) -ne 0 ]]; then
-        return 0 # Está instalado e em execução
-    else
-        return 1 # Não está instalado ou não está em execução
-    fi
 }
 
 # Função para instalar o SoftEther VPN Server
@@ -28,18 +18,6 @@ install_softether() {
     clear
     echo "INICIANDO INSTALAÇÃO..."
     show_progress
-
-    # Verificar se o SoftEther VPN Server já está instalado e em execução
-    if softether_installed_and_running; then
-        echo "SoftEther VPN Server já está instalado e em execução."
-        echo "Se deseja reinstalar, primeiro desinstale o SoftEther VPN Server."
-        echo "Você pode escolher a opção de desinstalação no menu principal."
-        sleep 3
-        tput reset
-        return
-    fi
-
-    # Continuar com a instalação apenas se não estiver instalado ou não estiver em execução
 
     # Verificar se o arquivo já foi baixado
     if [ ! -f softether-vpnserver-v4.43-9799-beta-2023.08.31-linux-x64-64bit.tar.gz ]; then
@@ -52,11 +30,13 @@ install_softether() {
     if [ -f softether-vpnserver-v4.43-9799-beta-2023.08.31-linux-x64-64bit.tar.gz ]; then
         echo "Extraindo arquivos do SoftEther VPN Server..."
         tar xzvf softether-vpnserver-v4.43-9799-beta-2023.08.31-linux-x64-64bit.tar.gz > /dev/null
-
-        # Remover o arquivo após extração bem-sucedida
+		
+		
+	 # Remover o arquivo após extração bem-sucedida
         echo "Removendo arquivo de instalação..."
-        rm softether-vpnserver-v4.43-9799-beta-2023.08.31-linux-x64-64bit.tar.gz
-    else
+        rm softether-vpnserver-v4.43-9799-beta-2023.08.31-linux-x64-64bit.tar.gz	
+		
+	else
         echo "Arquivo do SoftEther VPN Server não encontrado. Verifique o download."
         return 1
     fi
@@ -132,8 +112,8 @@ EOT
 
     clear
     echo "INSTALAÇÃO DO SOFTETHER CONCLUÍDA COM SUCESSO!"
-    sleep 3
-    tput reset
+	sleep 3
+tput reset
 }
 
 # Função para desinstalar o SoftEther VPN Server
@@ -141,14 +121,6 @@ uninstall_softether() {
     clear
     echo "Iniciando desinstalação..."
     show_progress
-
-    # Verificar se o serviço está em execução
-    if [[ $(netstat -tunlp | grep 'vpnserver' | wc -l) -eq 0 ]]; then
-        echo "SoftEther VPN Server não está em execução. Não há nada para desinstalar."
-        sleep 3
-        tput reset
-        return
-    fi
 
     echo "Parando o serviço SoftEther VPN Server..."
     sudo /etc/init.d/vpnserver stop
@@ -164,40 +136,30 @@ uninstall_softether() {
 
     clear
     echo "SOFTETHER DESINSTALADO COM SUCESSO."
-    sleep 3
-    tput reset
+	sleep 3
+tput reset
 }
 
 
 # Menu principal
 tput reset
 while true; do
-    if softether_installed_and_running; then
-        softethersts="\033[1;32m◉ "
-    else
-        softethersts="\033[1;31m○ "
-    fi
 
-    echo -e "\E[44;1;37m             GERENCIAR SOFTETHER              \E[0m"
-    echo ""
-    echo -e "\033[1;31m[\033[1;36m1\033[1;31m] \033[1;37m• \033[1;33mINSTALAR SOFTETHER $softethersts\033[0m"
-    echo -e "\033[1;31m[\033[1;36m2\033[1;31m] \033[1;37m• \033[1;33mDESINSTALAR SOFTETHER\033[0m"
-    echo -e "\033[1;31m[\033[1;36m3\033[1;31m] \033[1;37m• \033[1;33mVOLTAR\033[0m"
-    echo ""
-    read -p "OQUE DESEJA FAZER: " option
+			[[ "$(netstat -tunlp | grep 'vpnserver' | wc -l)" != '0' ]] && {
+				softethersts="\033[1;32m◉ "
+			} || {
+				softethersts="\033[1;31m○ "
+			}
+	echo -e "\E[44;1;37m             GERENCIAR SOFTETHER              \E[0m"
+	echo ""
+	echo -e "\033[1;31m[\033[1;36m1\033[1;31m] \033[1;37m• \033[1;33mINSTALAR SOFTETHER $softethersts\033[0m"
+	echo -e "\033[1;31m[\033[1;36m2\033[1;31m] \033[1;37m• \033[1;33mDESINSTALAR SOFTETHER\033[0m"
+	echo -e "\033[1;31m[\033[1;36m3\033[1;31m] \033[1;37m• \033[1;33mVOLTAR\033[0m"
+	echo ""
+	read -p "OQUE DESEJA FAZER: " option
 
     case $option in
-        1)
-            if softether_installed_and_running; then
-                echo "SoftEther VPN Server já está instalado e em execução."
-                echo "Se deseja reinstalar, primeiro desinstale o SoftEther VPN Server."
-                echo "Você pode escolher a opção de desinstalação no menu principal."
-                sleep 3
-                tput reset
-            else
-                install_softether
-            fi
-            ;;
+        1) install_softether ;;
         2) uninstall_softether ;;
         3) echo "Saindo do script." ; break ;;
         *) echo "Opção inválida. Por favor, escolha uma opção válida." ;;
