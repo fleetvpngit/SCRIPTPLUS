@@ -168,45 +168,6 @@ uninstall_softether() {
     tput reset
 }
 
-# Função para ativar o SoftEther VPN Server
-activate_softether() {
-    clear
-    echo "Ativando SoftEther VPN Server..."
-    show_progress
-
-    if softether_installed_and_running; then
-        echo "SoftEther VPN Server já está em execução."
-    else
-        sudo /etc/init.d/vpnserver start
-        if softether_installed_and_running; then
-            echo "SoftEther VPN Server ativado com sucesso."
-        else
-            echo "Falha ao ativar SoftEther VPN Server. Verifique a instalação."
-        fi
-    fi
-    sleep 3
-    tput reset
-}
-
-# Função para desativar o SoftEther VPN Server
-deactivate_softether() {
-    clear
-    echo "Desativando SoftEther VPN Server..."
-    show_progress
-
-    if softether_installed_and_running; then
-        sudo /etc/init.d/vpnserver stop
-        if [[ $(netstat -tunlp | grep 'vpnserver' | wc -l) -eq 0 ]]; then
-            echo "SoftEther VPN Server desativado com sucesso."
-        else
-            echo "Falha ao desativar SoftEther VPN Server."
-        fi
-    else
-        echo "SoftEther VPN Server não está em execução."
-    fi
-    sleep 3
-    tput reset
-}
 
 # Menu principal
 tput reset
@@ -221,9 +182,7 @@ while true; do
     echo ""
     echo -e "\033[1;31m[\033[1;36m1\033[1;31m] \033[1;37m• \033[1;33mINSTALAR SOFTETHER $softethersts\033[0m"
     echo -e "\033[1;31m[\033[1;36m2\033[1;31m] \033[1;37m• \033[1;33mDESINSTALAR SOFTETHER\033[0m"
-    echo -e "\033[1;31m[\033[1;36m3\033[1;31m] \033[1;37m• \033[1;33mATIVAR SOFTETHER\033[0m"
-    echo -e "\033[1;31m[\033[1;36m4\033[1;31m] \033[1;37m• \033[1;33mDESATIVAR SOFTETHER\033[0m"
-    echo -e "\033[1;31m[\033[1;36m5\033[1;31m] \033[1;37m• \033[1;33mVOLTAR\033[0m"
+    echo -e "\033[1;31m[\033[1;36m3\033[1;31m] \033[1;37m• \033[1;33mVOLTAR\033[0m"
     echo ""
     read -p "OQUE DESEJA FAZER: " option
 
@@ -240,9 +199,7 @@ while true; do
             fi
             ;;
         2) uninstall_softether ;;
-        3) activate_softether ;;
-        4) deactivate_softether ;;
-        5) echo "Saindo do script." ; break ;;
+        3) echo "Saindo do script." ; break ;;
         *) echo "Opção inválida. Por favor, escolha uma opção válida." ;;
     esac
 done
